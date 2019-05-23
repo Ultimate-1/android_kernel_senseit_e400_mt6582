@@ -1,5 +1,6 @@
 ## Linux kernel 3.10.54 (mt6582) for Senseit E400           
 ![Senseit E400](./arch/arm/mach-mt6582/senseit_e400/e400_silver.jpg)
+
 Неофициальный! (Официальный недоступен)
 
 Компоненты  | Характеристики
