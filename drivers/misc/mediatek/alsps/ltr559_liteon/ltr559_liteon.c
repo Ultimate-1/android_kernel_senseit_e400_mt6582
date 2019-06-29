@@ -251,8 +251,8 @@ static int final_lux_val;
  * bigger value means close to p-sensor
  * smaller value means far away from p-sensor
  */
-static int ps_trigger_high = 30;				//yaoyaoqin: trigger up threshold
-static int ps_trigger_low = 20;				//yaoyaoqin: trigger low threshold
+static int ps_trigger_high = 200;				//yaoyaoqin: trigger up threshold
+static int ps_trigger_low = 180;				//yaoyaoqin: trigger low threshold
 static int ps_trigger_delta = 15;				//yaoyaoqin: delta for adjust threshold
 
 static int ltr559_get_ps_value(struct ltr559_priv *obj, int ps);
@@ -413,8 +413,8 @@ int ltr559_init_device(struct i2c_client *client)
 	hwmsen_write_byte(client, 0x93, 0x00);
 #endif /* GN_MTK_BSP_ALSPS_INTERRUPT_MODE */
 
-	hwmsen_write_byte(client, 0x80, 0x03);
-	hwmsen_write_byte(client, 0x81, 0x03);
+	//hwmsen_write_byte(client, 0x80, 0x03);
+	//hwmsen_write_byte(client, 0x81, 0x03);
 	
 	mdelay(WAKEUP_DELAY);
 	return 0;
@@ -472,7 +472,7 @@ static int ltr559_enable_als(struct i2c_client *client, bool enable)
 	}
 	else if(enable == true)
 	{
-		if (hwmsen_write_byte(client, APS_RW_ALS_CONTR, 0x01)) {
+		if (hwmsen_write_byte(client, APS_RW_ALS_CONTR, 0x19)) {
 			APS_LOG("ltr559_enable_als enable failed!\n");
 			return -1;
 		}
@@ -1305,7 +1305,7 @@ static int ltr559_get_ps_value(struct ltr559_priv *obj, int ps)
 
 	}
 	
-
+/*
 	if (ps > ps_trigger_high) {
 		// bigger value, close
 		val = 0;
@@ -1315,9 +1315,9 @@ static int ltr559_get_ps_value(struct ltr559_priv *obj, int ps)
 	} else {
 		val = 1;
 	}
-	
+*/	
 	printk("mycat ltr559_get_ps_value:: obj->ps_thd_val=%d ps=%d \r\n",obj->ps_thd_val,ps);
-/*	
+	
 	if (ps > obj->ps_thd_val)
 	{
 		// bigger value, close
@@ -1327,7 +1327,7 @@ static int ltr559_get_ps_value(struct ltr559_priv *obj, int ps)
 	{
 		val = 1;
 	}
-*/
+
 	if(atomic_read(&obj->ps_suspend))
 	{
 		invalid = 1;
